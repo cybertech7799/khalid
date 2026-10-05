@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a10">
+<title>THE SECRET MISSION | KHALED</title>
+
+<style>
+:root{
+  --bg:#080a10;
+  --panel:#111520;
+  --panel2:#171d2a;
+  --text:#f3f5fb;
+  --muted:#9aa4b7;
+  --gold:#f4c76b;
+  --red:#ff5364;
+  --green:#65e6ad;
+  --line:rgba(255,255,255,.11);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(70,91,150,.16),transparent 35%),
+    radial-gradient(ellipse at 85% 75%,rgba(160,70,70,.10),transparent 35%),
+    var(--bg);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.14;
+  z-index:-1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+.shell{
+  width:min(920px,calc(100% - 30px));
+  margin:auto;
+  padding:22px 0 42px;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:22px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:.78rem;
+  letter-spacing:.15em;
+  color:var(--muted);
+  font-weight:800;
+}
+.brand-mark{
+  display:grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border:1px solid rgba(244,199,107,.5);
+  border-radius:10px;
+  color:var(--gold);
+  box-shadow:0 0 24px rgba(244,199,107,.18);
+}
+.status{
+  font-size:.72rem;
+  color:var(--green);
+  border:1px solid rgba(101,230,173,.28);
+  padding:7px 10px;
+  border-radius:99px;
+  white-space:nowrap;
+}
+.screen{display:none;animation:rise .5s ease both}
+.screen.active{display:block}
+@keyframes rise{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.hero{
+  min-height:66vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:30px 0;
+}
+.eyebrow{
+  font-size:.74rem;
+  font-weight:900;
+  letter-spacing:.2em;
+  color:var(--red);
+  text-transform:uppercase;
+}
+h1{
+  font-size:clamp(2.35rem,8vw,5.4rem);
+  line-height:.98;
+  letter-spacing:-.055em;
+  margin:18px 0;
+}
+h1 span{
+  display:block;
+  color:var(--gold);
+  text-shadow:0 0 35px rgba(244,199,107,.18);
+}
+.subtitle{
+  color:var(--muted);
+  line-height:1.9;
+  max-width:570px;
+  font-size:1rem;
+}
+.stamp{
+  border:1px solid rgba(255,83,100,.55);
+  color:#ff8b96;
+  transform:rotate(-4deg);
+  padding:8px 13px;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.16em;
+  margin:18px 0 30px;
+}
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:14px 20px;
+  font:inherit;
+  font-weight:850;
+  cursor:pointer;
+  transition:transform .18s,filter .18s;
+}
+.btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.08);
+}
+.btn-primary{
+  color:#17120a;
+  background:linear-gradient(135deg,#ffe6a5,#e8b64f);
+  box-shadow:0 10px 35px rgba(244,199,107,.18);
+}
+.btn-ghost{
+  color:var(--text);
+  background:var(--panel2);
+  border:1px solid var(--line);
+}
+.tiny{
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:14px;
+}
+.panel{
+  background:linear-gradient(145deg,rgba(20,25,38,.96),rgba(13,16,25,.96));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:clamp(20px,5vw,38px);
+  box-shadow:0 22px 80px rgba(0,0,0,.25);
+}
+.mission-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:24px;
+}
+.mission-label{
+  font-size:.72rem;
+  letter-spacing:.13em;
+  color:var(--gold);
+  font-weight:900;
+}
+.counter{
+  color:var(--muted);
+  font-size:.8rem;
+  white-space:nowrap;
+}
+.progress-track{
+  height:6px;
+  background:#272d3b;
+  border-radius:99px;
+  overflow:hidden;
+  margin:0 0 28px;
+}
+.progress-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--red),var(--gold));
+  border-radius:99px;
+  transition:width .35s ease;
+}
+.question{
+  font-size:clamp(1.4rem,4.8vw,2.15rem);
+  line-height:1.5;
+  margin-bottom:9px;
+}
+.hint{
+  color:var(--muted);
+  font-size:.9rem;
+  line-height:1.8;
+  margin-bottom:24px;
+}
+.options{display:grid;gap:11px}
+.option{
+  width:100%;
+  text-align:right;
+  color:var(--text);
+  background:#171d2a;
+  border:1px solid #2a3243;
+  border-radius:13px;
+  padding:15px 16px;
+  font:inherit;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:.18s;
+}
+.option:hover{
+  border-color:rgba(244,199,107,.65);
+  background:#1c2332;
+}
+.option:disabled{cursor:default}
+.option .letter{
+  display:grid;
+  place-items:center;
+  flex:0 0 30px;
+  height:30px;
+  border-radius:8px;
+  background:#252d3e;
+  color:var(--gold);
+  font-size:.78rem;
+  font-weight:900;
+}
+.option.correct{
+  border-color:var(--green);
+  background:rgba(101,230,173,.09);
+}
+.option.wrong{
+  border-color:var(--red);
+  background:rgba(255,83,100,.08);
+}
+.feedback{
+  display:none;
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:12px;
+  line-height:1.8;
+  font-size:.92rem;
+}
+.feedback.show{display:block;animation:rise .25s ease}
+.feedback.good{
+  background:rgba(101,230,173,.08);
+  border:1px solid rgba(101,230,173,.25);
+}
+.feedback.bad{
+  background:rgba(255,83,100,.08);
+  border:1px solid rgba(255,83,100,.25);
+}
+.next-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:24px;
+}
+.next-row .tiny{margin:0}
+.final{text-align:center}
+.seal{
+  width:82px;
+  height:82px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  margin:0 auto 22px;
+  border:1px solid rgba(244,199,107,.5);
+  color:var(--gold);
+  font-size:2rem;
+  box-shadow:0 0 55px rgba(244,199,107,.18);
+}
+.final h2{
+  font-size:clamp(2rem,6vw,3.6rem);
+  line-height:1.2;
+  margin-bottom:14px;
+}
+.final h2 span{color:var(--gold)}
+.letter-card{
+  max-width:680px;
+  margin:26px auto;
+  text-align:right;
+  line-height:2.15;
+  color:#e4e8f0;
+  background:rgba(255,255,255,.035);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:clamp(20px,5vw,32px);
+  white-space:pre-line;
+}
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin:20px 0;
+}
+.photo-slot{
+  min-height:170px;
+  border:1px dashed rgba(244,199,107,.45);
+  border-radius:15px;
+  overflow:hidden;
+  background:#101521;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  text-align:center;
+  padding:10px;
+  position:relative;
+}
+.photo-slot img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.photo-slot span{font-size:.85rem;line-height:1.7}
+.upload-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin:16px 0 26px;
+}
+input[type=file]{display:none}
+.photo-note{
+  font-size:.78rem;
+  color:var(--muted);
+  line-height:1.8;
+}
+.footer{
+  text-align:center;
+  color:#697386;
+  font-size:.72rem;
+  margin-top:24px;
+}
+.confetti{
+  position:fixed;
+  top:-12px;
+  width:8px;
+  height:12px;
+  z-index:10;
+  pointer-events:none;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:.1}
+}
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:#202738;
+  border:1px solid var(--line);
+  padding:11px 16px;
+  border-radius:99px;
+  font-size:.85rem;
+  transition:.25s;
+  z-index:5;
+}
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+@media(max-width:560px){
+  .shell{width:calc(100% - 22px);padding-top:14px}
+  .topbar{margin-bottom:10px}
+  .hero{min-height:70vh}
+  .photo-grid{grid-template-columns:1fr}
+  .photo-slot{min-height:200px}
+  .next-row{align-items:stretch;flex-direction:column-reverse}
+  .next-row .btn{width:100%}
+  .status{font-size:.65rem}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">✦</div>
+    <div>
+      FIELD OPERATIONS<br>
+      <span style="font-weight:500;letter-spacing:.08em">
+        SPECIAL BIRTHDAY UNIT
+      </span>
+    </div>
+  </div>
+  <div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<main>
+
+<!-- شاشة البداية -->
+<section class="screen active" id="intro">
+  <div class="hero">
+    <div class="eyebrow">A classified birthday operation</div>
+    <h1>THE SECRET <span>MISSION</span></h1>
+    <div class="stamp">TOP SECRET · EYES ONLY</div>
+
+    <p class="subtitle">
+      يا خالد، يا طويل… عندنا مهمة سرية جدًا محتاجة تركيزك.
+    ل. 😎
+    </p>
+
+    <button class="btn btn-primary" id="startBtn">
+      ابدأ المهمة ←اخلص
+    </button>
+
+    <p class="tiny">OPERATION KHALED · FILE 05-10</p>
+  </div>
+</section>
+
+<!-- شاشة الأسئلة -->
+<section class="screen" id="quiz">
+  <div class="panel">
+
+    <div class="mission-head">
+      <div>
+        <div class="mission-label" id="missionLabel">MISSION 01</div>
+        <div class="tiny" style="margin-top:5px">
+          اختبر ذاكرتك يا طويل… 👀
+        </div>
+      </div>
+      <div class="counter" id="counter">المرحلة 1 من 3</div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <h2 class="question" id="questionText"></h2>
+    <p class="hint" id="hintText"></p>
+
+    <div class="options" id="options"></div>
+
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+
+    <div class="next-row">
+      <p class="tiny" id="scoreText">الإجابات الصحيحة: 0</p>
+      <button class="btn btn-primary" id="nextBtn" style="display:none">
+        المرحلة التالية ←
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- المفاجأة النهائية -->
+<section class="screen" id="final">
+  <div class="panel final">
+
+    <div class="seal">✦</div>
+    <div class="eyebrow">MISSION ACCOMPLISHED</div>
+
+    <h2>كل سنة وإنت طيب<br><span>يا خالووووود و عقبال  ظوبروميت سنه وتحقق كل الي نفسك في وتبقا اول مليونير في العيله ويطول بعمرك يا حبيبي❤️</span></h2>
+<section class="screen" id="final">
+  <div class="panel final">
+
+    <div class="seal">✦</div>
+    <div class="eyebrow">MISSION ACCOMPLISHED</div>
+
+    <h2>كل سنة وإنت طيب<br>
+    <p class="subtitle" style="margin-inline:auto">
+      تم اجتياز المهمة بنجاح. بس أهم جزء في الملف لسه متفتحش…
+    </p>
+
+    <div class="letter-card" id="finalMessage"></div>
+
+    <h3 style="margin:28px 0 8px">📁 أرشيف الذكريات</h3>
+
+    <p class="photo-note">
+      اختار صوركم من الزر اللي تحت عشان تظهر في المعرض.
+    </p>
+
+    <div class="photo-grid" id="photoGrid">
+      <div class="photo-slot">
+        <span>📸<br>الصورة الأولى<br>أول ذكرى تستاهل تتحفظ</span>
+      </div>
+      <div class="photo-slot">
+        <span>📸<br>الصورة الثانية<br>دليل إننا كنا عاقلين… تقريبًا</span>
+      </div>
+    </div>
+
+    <div class="upload-wrap">
+      <label class="btn btn-ghost" for="photoUpload"
+             style="display:inline-flex;align-items:center;cursor:pointer">
+        اختار صوركم 📂
+      </label>
+
+      <input id="photoUpload" type="file" accept="image/*" multiple>
+
+
+      <button class="btn btn-primary" id="replayBtn">
+        إعادة المهمة ↻
+      </button>
+    </div>
+
+    <p class="tiny">END OF FILE · FRIENDSHIP STATUS: LEGENDARY</p>
+
+  </div>
+</section>
+
+</main>
+
+<div class="footer">
+  A ONE-OF-ONE EXPERIENCE · MADE WITH FRIENDSHIP
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+</div>
+
+<script>
+/* ==========================================
+   تعديل الأسئلة والإجابات من هنا
+   ========================================== */
+
+const FRIEND_NAME = "خالد";
+const NICKNAME = "يا طويل";
+
+const QUESTIONS = [
+  {
+    title: "فاكر بطولة السلة بتاعت المدرسة؟ 🏀",
+    hint: "سؤال تاريخي ومهم للأمن القومي… كنا مركز كام؟",
+
+    answers: [
+      "الأول 🥇",
+      "الثاني 🥈",
+      "الثالث 🥉",
+      "بلبل😂"
+    ],
+
+    correct: 1,
+
+    success:
+      "أيوه يا فحل! المركز التاني… يعني فحول بس بنسيب فرصة للناس 😎",
+
+    retry:
+      "يا طويل ركّز 😂 افتكر بطولة السلة بتاعة المدرسة!"
+  },
+
+  {
+    title: "فاكر عربية أبو عبد الله القديمة؟ 🚗",
+    hint: "العربية دي كانت محتاجة ميزانية فيلم أكشن… إيه الاختيارات الأسطورية؟",
+
+    answers: [
+      "لامبورجيني زرقاء وتسلا صفراء 💙💛",
+      "توكتوك بنفسجي 🛺",
+      "فيراري وردية 🎀",
+      "عربية فضاء من المريخ 🛸"
+    ],
+
+    correct: 0,
+
+    success:
+    "بالظبط 😂 لامبورجيني زرقاء وتسلا صفراء… أبو عبد الله! كان نياك كبير",
+
+    retry:
+      "لا يا عم، دي مش أي عربيات… افتكر الاختيارات الجامدة دي 😂"
+  },
+
+  {
+    title: "أنا جيت لك 6 أكتوبر كام مرة؟ 📍",
+    hint: "احسبها كويس يا طويل…ط",
+
+    answers: [
+      "مرة واحدة",
+      "مرتين",
+      "3 مرات",
+      "لدرجة إني بقيت من سكان أكتوبر 😂"
+    ],
+
+    correct: 2,
+
+    success:
+      "ثلاث مرات صح! وده دليل إن المشاوير بتهون لما تكون رايح لصاحبك ❤️",
+
+    retry:
+      "إيه يا عم دي مش أول مرة أجيلك فيها 😂 جرّب تاني!"
+  }
+];
+
+
+/* ==========================================
+   الرسالة النهائية — عدّلها براحتك
+   ========================================== */
+
+const FINAL_MESSAGE = `يا خالد، يا طويل ❤️
+
+كل سنه وانت طيب يا حبيبي و عقبال ظوبروميت سنه
+ وتحقق كل الي نفسك في وتبقا اول مليونير في العيله ❤️`;
+
+
+/* ==========================================
+   نظام اللعبة — لا تحتاج لتعديله
+   ========================================== */
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const $ = id => document.getElementById(id);
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
+
+  $(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderQuestion(){
+  answered = false;
+
+  const q = QUESTIONS[current];
+
+  $("missionLabel").textContent =
+    `MISSION 0${current + 1}`;
+
+  $("counter").textContent =
+    `المرحلة ${current + 1} من ${QUESTIONS.length}`;
+
+  $("progressFill").style.width =
+    `${(current / QUESTIONS.length) * 100}%`;
+
+  $("questionText").textContent = q.title;
+  $("hintText").textContent = q.hint;
+
+  $("scoreText").textContent =
+    `الإجابات الصحيحة: ${score} / ${QUESTIONS.length}`;
+
+  $("feedback").className = "feedback";
+  $("feedback").textContent = "";
+
+  $("nextBtn").style.display = "none";
+  $("options").innerHTML = "";
+
+  q.answers.forEach((answer,index)=>{
+    const button = document.createElement("button");
+    button.className = "option";
+
+    const letter = document.createElement("span");
+    letter.className = "letter";
+    letter.textContent = String.fromCharCode(65 + index);
+
+    const text = document.createElement("span");
+    text.textContent = answer;
+
+    button.appendChild(letter);
+    button.appendChild(text);
+
+    button.addEventListener("click",()=>{
+      chooseAnswer(index,button);
+    });
+
+    $("options").appendChild(button);
+  });
+}
+
+function chooseAnswer(index,button){
+  if(answered) return;
+
+  answered = true;
+
+  const q = QUESTIONS[current];
+
+  const buttons = [
+    ...$("options").querySelectorAll(".option")
+  ];
+
+  buttons.forEach(b=>b.disabled = true);
+
+  const feedback = $("feedback");
+
+  if(index === q.correct){
+    score++;
+
+    button.classList.add("correct");
+
+    feedback.className = "feedback show good";
+    feedback.textContent = q.success;
+
+  }else{
+    button.classList.add("wrong");
+    buttons[q.correct].classList.add("correct");
+
+    feedback.className = "feedback show bad";
+    feedback.textContent = q.retry;
+  }
+
+  $("scoreText").textContent =
+    `الإجابات الصحيحة: ${score} / ${QUESTIONS.length}`;
+
+  $("progressFill").style.width =
+    `${((current + 1) / QUESTIONS.length) * 100}%`;
+
+  $("nextBtn").textContent =
+    current === QUESTIONS.length - 1
+      ? "افتح الملف السري ✦"
+      : "المرحلة التالية ←";
+
+  $("nextBtn").style.display = "inline-block";
+}
+
+function finishMission(){
+  $("finalMessage").textContent = FINAL_MESSAGE;
+  showScreen("final");
+  celebrate();
+}
+
+function celebrate(){
+  const colors = [
+    "#f4c76b",
+    "#ff5364",
+    "#65e6ad",
+    "#8aa7ff",
+    "#ffffff"
+  ];
+
+  for(let i=0;i<75;i++){
+    const piece = document.createElement("div");
+
+    piece.className = "confetti";
+    piece.style.left = Math.random() * 100 + "vw";
+
+    piece.style.background =
+      colors[Math.floor(Math.random() * colors.length)];
+
+    piece.style.animationDuration =
+      (2.5 + Math.random() * 3) + "s";
+
+    piece.style.animationDelay =
+      Math.random() * .7 + "s";
+
+    piece.style.transform =
+      `rotate(${Math.random() * 360}deg)`;
+
+    document.body.appendChild(piece);
+
+    setTimeout(()=>piece.remove(),6500);
+  }
+}
+
+function toast(message){
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+
+  setTimeout(()=>{
+    $("toast").classList.remove("show");
+  },2600);
+}
+
+
+/* أزرار التنقل */
+
+$("startBtn").addEventListener("click",()=>{
+  current = 0;
+  score = 0;
+
+  showScreen("quiz");
+  renderQuestion();
+});
+
+$("nextBtn").addEventListener("click",()=>{
+  if(current < QUESTIONS.length - 1){
+    current++;
+    renderQuestion();
+  }else{
+    finishMission();
+  }
+});
+
+$("replayBtn").addEventListener("click",()=>{
+  current = 0;
+  score = 0;
+
+  showScreen("intro");
+});
+
+
+/* إضافة الصور من الجهاز */
+
+$("photoUpload").addEventListener("change",event=>{
+  const files = [
+    ...event.target.files
+  ].filter(file=>file.type.startsWith("image/")).slice(0,8);
+
+  if(!files.length) return;
+
+  const grid = $("photoGrid");
+  grid.innerHTML = "";
+
+  files.forEach(file=>{
+    const slot = document.createElement("div");
+    slot.className = "photo-slot";
+
+    const img = document.createElement("img");
+    img.alt = "ذكرى مع خالد";
+    img.src = URL.createObjectURL(file);
+
+    slot.appendChild(img);
+    grid.appendChild(slot);
+  });
+
+  toast("الصور ظهرت في المعرض ❤️");
+});
+
+console.log(
+  `Secret mission loaded for ${FRIEND_NAME} — ${NICKNAME}`
+);
+</script>
+
+</body>
+</html>
